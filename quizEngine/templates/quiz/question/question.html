@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% load category_templates %}
+{% block title %}
+
+{{ category.category_name }}
+{% endblock %}
+
+{% block content %}
+<div class="question">
+    <h1>Викторина {{ category.category_name }}</h1>
+    {% if not questions %}
+        <h3>Sorry, there are no questions on this topic yet</h3>
+        <p>Would you like to return and try another quiz?</p>
+        <a href="{% url 'quizEngine:welcome' %}" class="link-button">Back to quizes!</a>
+    {% else %}
+    {% for q in questions %}
+    <form class="question-form">
+        <div class="all-answers">
+           {% csrf_token %}
+        <p>Вопрос {{ category|get_question_index:q }} из {{ category.get_questions|length }}</p>
+        <div class="question-text">{{ q.question|safe }}</div>
+        {% if q.correct_answers.count > 1 %}
+        <div class="answers-container">
+            <p>Выберите несколько вариантов ответа</p>
+           {% for a in q.get_answers %}
+                            
+                <label for="answer-input" class="answer">
+                    <input type="checkbox" class="answer-input" 
+                    name="question{{ q.pk }}" 
+                    value="{{ a.answer_text }}">
+                    <span>{{ a.answer_text }}</span>
+                </label>               
+            {% endfor %} 
+        </div>
+            
+        {% else %}
+        <div class="answers-container">
+            <p>Выберите один вариант ответа</p>
+            {% for a in q.get_answers %}
+            <label for="answer-input" class="answer">
+                     <input type="radio" class="answer-input" 
+                name="question{{ q.pk }}"
+                value="{{ a.answer_text }}">
+                <span>{{ a.answer_text }}</span>
+            </label>              
+                
+            {% endfor %}
+        </div>
+            
+        {% endif %} 
+        </div>
+        
+    </form>
+    
+    {% endfor %}
+{% include 'paginator.html' with page=questions %}
+
+</div>
+<button type="submit" class="submit_btn">Завершить викторину!</button>
+
+{% endif %}
+{% endblock %}

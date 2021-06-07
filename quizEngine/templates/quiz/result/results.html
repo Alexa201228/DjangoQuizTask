@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+
+Результаты викторины {{ category.category_name }}
+{% endblock %}
+{% block content %}
+<h1 class="result-title">Результаты викторины</h1>
+<p class="result-percentage">
+    Вы ответили верно на {{ result }}%  вопросов
+</p>
+
+<div class="quiz-result">
+    {% for q in questions %}
+        <div class="question-txt">{{ q.0.question|safe }}</div>
+        <div class="correct-answer">
+          <h5>Правильный ответ:</h5>
+            {% for corr_ans in q.1 %}
+                <p>{{ corr_ans }}</p>
+            {% endfor %}  
+        </div>
+        
+        <div class="user-answer">
+            <h5>Ваш ответ:</h5>
+            {% if not q.2 %}
+                <p class="not-answered">Вы не ответили на этот вопрос :(</p>
+            {% else %}
+                {% for user_ans in q.2 %}
+                    <p class="usr-ans">{{ user_ans }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+            
+    {% endfor %}
+<a href="{% url 'quizEngine:quiz_list' category.slug %}" class="link-button">Попробовать снова!</a>
+<a href="{% url 'quizEngine:welcome' %}" class="link-button">Главная</a>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Викторина
+{% endblock %}
+{% block content %}
+
+<h1>Добро пожаловать на викторину!</h1>
+
+<div class="categories">
+    <h3 class="choose-category-label">Выберите категорию викторины</h3>
+    
+    <ul class="categories-list">
+        {% for c in categories %}
+        <li>
+            <a href="{% url 'quizEngine:quiz_list' c.slug %}" 
+        class="link-button">{{ c.category_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    
+</div>
+<p>
+    
+</p>
+
+{% endblock %}
