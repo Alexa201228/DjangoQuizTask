@@ -9,6 +9,7 @@ class AnswersInline(admin.StackedInline):
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ['question_name', 'num_of_answers']
+    list_per_page = 10
     inlines = [AnswersInline]
 
 
