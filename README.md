@@ -99,10 +99,3 @@ docker-compose exec web pycodestyle .
 
 В приложении используется БД SQLite, данные в БД загружаются при 
 построении заготовки приложения с помощью docker. (Для сохранения данных были использованы fixtures. Файл с данными: quizData.json)
-
-Доступ к панели администратора:
-
-user: quizAdmin
-
-password: quizAdmin7
-
